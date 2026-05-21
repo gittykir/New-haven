@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Haven Restaurant — Taste of the Motherland</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Teko:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black:    #0a0a0a;
+    --charcoal: #111111;
+    --dark:     #1a1a1a;
+    --panel:    #161616;
+    --fire:     #e8520a;
+    --amber:    #f0a500;
+    --gold:     #d4842a;
+    --ember:    #c23b0f;
+    --green:    #2d6a30;
+    --green-lt: #3d8c40;
+    --red:      #c01f1f;
+    --cream:    #f5ede0;
+    --warm:     #fdf6ec;
+    --text:     rgba(245,237,224,0.88);
+    --muted:    rgba(245,237,224,0.42);
+    --divider:  rgba(245,237,224,0.08);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Crimson Pro', Georgia, serif;
+    background: var(--black);
+    color: var(--text);
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ── TRIBAL PATTERN GENERATOR ────────────────────────── */
+  .tribal-border {
+    height: 18px;
+    background: repeating-linear-gradient(
+      90deg,
+      var(--fire) 0px, var(--fire) 12px,
+      var(--green) 12px, var(--green) 24px,
+      var(--red) 24px, var(--red) 36px,
+      var(--amber) 36px, var(--amber) 48px
+    );
+    clip-path: polygon(
+      0 0, 4.17% 0, 4.17% 55%, 8.33% 100%, 12.5% 55%, 12.5% 0,
+      16.67% 0, 16.67% 55%, 20.83% 100%, 25% 55%, 25% 0,
+      29.17% 0, 29.17% 55%, 33.33% 100%, 37.5% 55%, 37.5% 0,
+      41.67% 0, 41.67% 55%, 45.83% 100%, 50% 55%, 50% 0,
+      54.17% 0, 54.17% 55%, 58.33% 100%, 62.5% 55%, 62.5% 0,
+      66.67% 0, 66.67% 55%, 70.83% 100%, 75% 55%, 75% 0,
+      79.17% 0, 79.17% 55%, 83.33% 100%, 87.5% 55%, 87.5% 0,
+      91.67% 0, 91.67% 55%, 95.83% 100%, 100% 55%, 100% 0
+    );
+  }
+  .tribal-border.flip {
+    clip-path: polygon(
+      0 100%, 4.17% 100%, 4.17% 45%, 8.33% 0%, 12.5% 45%, 12.5% 100%,
+      16.67% 100%, 16.67% 45%, 20.83% 0%, 25% 45%, 25% 100%,
+      29.17% 100%, 29.17% 45%, 33.33% 0%, 37.5% 45%, 37.5% 100%,
+      41.67% 100%, 41.67% 45%, 45.83% 0%, 50% 45%, 50% 100%,
+      54.17% 100%, 54.17% 45%, 58.33% 0%, 62.5% 45%, 62.5% 100%,
+      66.67% 100%, 66.67% 45%, 70.83% 0%, 75% 45%, 75% 100%,
+      79.17% 100%, 79.17% 45%, 83.33% 0%, 87.5% 45%, 87.5% 100%,
+      91.67% 100%, 91.67% 45%, 95.83% 0%, 100% 45%, 100% 100%
+    );
+  }
+
+  /* ── NAV ────────────────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    background: rgba(10,10,10,0.96);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(232,82,10,0.2);
+  }
+  .tribal-border.nav-stripe { height: 5px; }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: .9rem 2.5rem;
+    max-width: 1300px; margin: 0 auto;
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem; letter-spacing: .12em;
+    color: var(--amber);
+    display: flex; align-items: center; gap: .7rem;
+  }
+  /* Inline pot SVG */
+  .pot-icon { width: 34px; height: 34px; flex-shrink: 0; }
+  .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+  .nav-links a {
+    font-family: 'Teko', sans-serif;
+    font-size: 1.05rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--amber); }
+  .nav-cta {
+    font-family: 'Teko', sans-serif;
+    font-size: 1rem; letter-spacing: .14em; text-transform: uppercase;
+    background: var(--fire); color: #fff;
+    border: none; cursor: pointer; padding: .55rem 1.6rem;
+    transition: background .2s; text-decoration: none; display: inline-block;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  }
+  .nav-cta:hover { background: var(--amber); }
+
+  /* ── HERO ───────────────────────────────────────────── */
+  #hero {
+    min-height: 100vh;
+    background: var(--black);
+    position: relative;
+    display: flex; align-items: center;
+    overflow: hidden;
+    padding-top: 70px;
+  }
+  /* Fire gradient radial glow */
+  .hero-glow {
+    position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 60% 70% at 65% 40%, rgba(232,82,10,.18) 0%, transparent 65%),
+      radial-gradient(ellipse 40% 50% at 30% 70%, rgba(240,165,0,.08) 0%, transparent 60%);
+  }
+  /* Grain texture overlay */
+  .hero-grain {
+    position: absolute; inset: 0; pointer-events: none; opacity: .4;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+    background-size: 256px;
+  }
+  /* Big decorative pot */
+  .hero-pot {
+    position: absolute; right: -30px; top: 50%;
+    transform: translateY(-48%);
+    opacity: .07; width: 580px; pointer-events: none;
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    max-width: 1300px; margin: 0 auto; padding: 0 2.5rem;
+    width: 100%;
+  }
+  .hero-eyebrow {
+    font-family: 'Teko', sans-serif;
+    font-size: 1rem; letter-spacing: .35em; text-transform: uppercase;
+    color: var(--fire); margin-bottom: 1.2rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: block; width: 40px; height: 2px; background: var(--fire);
+  }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4.5rem, 12vw, 10rem);
+    line-height: .92; letter-spacing: .03em;
+    color: var(--cream);
+  }
+  .hero-title .accent { color: var(--fire); display: block; }
+  .hero-title .script-word {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(3rem, 8vw, 7rem);
+    color: var(--amber); letter-spacing: .01em;
+    line-height: 1; display: block;
+  }
+  .hero-sub {
+    font-family: 'Teko', sans-serif;
+    font-size: 1.35rem; letter-spacing: .22em; text-transform: uppercase;
+    color: var(--muted); margin-top: 1.5rem;
+  }
+  .hero-actions {
+    display: flex; gap: 1.2rem; margin-top: 2.8rem; flex-wrap: wrap;
+  }
+  .btn-fire {
+    font-family: 'Teko', sans-serif;
+    font-size: 1.1rem; letter-spacing: .18em; text-transform: uppercase;
+    background: var(--fire); color: #fff; border: none; cursor: pointer;
+    padding: .8rem 2.4rem; text-decoration: none; display: inline-block;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    transition: background .2s, transform .15s;
+  }
+  .btn-fire:hover { background: var(--amber); transform: translateY(-2px); }
+  .btn-outline {
+    font-family: 'Teko', sans-serif;
+    font-size: 1.1rem; letter-spacing: .18em; text-transform: uppercase;
+    background: transparent; color: var(--cream);
+    border: 1px solid rgba(245,237,224,.25); cursor: pointer;
+    padding: .8rem 2.4rem; text-decoration: none; display: inline-block;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    transition: border-color .2s, color .2s;
+  }
+  .btn-outline:hover { border-color: var(--amber); color: var(--amber); }
+
+  /* Delivery badge */
+  .delivery-badge {
+    display: inline-flex; align-items: center; gap: .8rem;
+    margin-top: 2rem;
+    background: rgba(232,82,10,.12); border: 1px solid rgba(232,82,10,.3);
+    padding: .7rem 1.4rem;
+  }
+  .delivery-badge span {
+    font-family: 'Teko', sans-serif;
+    font-size: .95rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--amber);
+  }
+  .delivery-badge a {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem; letter-spacing: .1em;
+    color: var(--fire); text-decoration: none;
+  }
+  .delivery-badge a:hover { color: var(--amber); }
+
+  /* Stats row */
+  .hero-stats {
+    position: absolute; bottom: 3rem; left: 0; right: 0;
+    display: flex; justify-content: center; gap: 5rem; z-index: 2;
+  }
+  .h-stat strong {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.2rem; color: var(--amber); display: block; letter-spacing: .05em;
+  }
+  .h-stat span {
+    font-family: 'Teko', sans-serif;
+    font-size: .85rem; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ── SECTION LAYOUT ─────────────────────────────────── */
+  .section-wrap {
+    max-width: 1300px; margin: 0 auto; padding: 0 2.5rem;
+  }
+  .sec-eyebrow {
+    font-family: 'Teko', sans-serif;
+    font-size: .95rem; letter-spacing: .35em; text-transform: uppercase;
+    color: var(--fire); display: flex; align-items: center; gap: 1rem;
+    margin-bottom: .8rem;
+  }
+  .sec-eyebrow::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(to right, rgba(232,82,10,.5), transparent);
+  }
+  .sec-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    letter-spacing: .04em; color: var(--cream); line-height: 1;
+  }
+
+  /* ── ABOUT ──────────────────────────────────────────── */
+  #about {
+    padding: 7rem 0 0;
+    background: var(--black);
+  }
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: center; padding-bottom: 5rem;
+  }
+  .about-text p {
+    font-size: 1.2rem; line-height: 1.85;
+    color: var(--muted); margin-top: 1.5rem;
+  }
+  .about-text p strong { color: var(--amber); font-weight: 600; }
+  .about-features {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1.2rem; margin-top: 2.5rem;
+  }
+  .feat {
+    border-left: 3px solid var(--fire);
+    padding-left: 1rem;
+  }
+  .feat strong {
+    display: block; font-family: 'Teko', sans-serif;
+    font-size: 1rem; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--cream);
+  }
+  .feat span { font-size: .95rem; color: var(--muted); }
+
+  /* African pot visual block */
+  .about-visual {
+    position: relative;
+  }
+  .about-card {
+    background: var(--panel);
+    border: 1px solid rgba(232,82,10,.15);
+    padding: 3rem 2.5rem; position: relative;
+    overflow: hidden;
+  }
+  .about-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--fire), var(--amber), var(--green), var(--red));
+  }
+  .about-card-q {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3.5rem; color: var(--fire); line-height: .9;
+    margin-bottom: 1rem;
+  }
+  .about-card blockquote {
+    font-size: 1.3rem; font-style: italic; line-height: 1.7;
+    color: var(--cream);
+  }
+  .about-card-attr {
+    font-family: 'Teko', sans-serif;
+    font-size: .9rem; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--muted); margin-top: 1.5rem;
+  }
+  /* Tribal corner ornament */
+  .about-card::after {
+    content: '';
+    position: absolute; bottom: -12px; right: -12px;
+    width: 90px; height: 90px;
+    background: repeating-conic-gradient(
+      var(--fire) 0deg, var(--fire) 30deg,
+      var(--green) 30deg, var(--green) 60deg,
+      var(--red) 60deg, var(--red) 90deg,
+      var(--amber) 90deg, var(--amber) 120deg
+    );
+    opacity: .25;
+  }
+
+  /* ── EVENTS STRIP ───────────────────────────────────── */
+  .events-strip {
+    background: var(--dark);
+    border-top: 1px solid var(--divider);
+    border-bottom: 1px solid var(--divider);
+    padding: 2rem 0; overflow: hidden;
+  }
+  .events-marquee {
+    display: flex; gap: 4rem;
+    animation: marquee 22s linear infinite; white-space: nowrap;
+    width: max-content;
+  }
+  .events-marquee span {
+    font-family: 'Teko', sans-serif;
+    font-size: 1.1rem; letter-spacing: .25em; text-transform: uppercase;
+    color: var(--muted); flex-shrink: 0;
+  }
+  .events-marquee .dot { color: var(--fire); }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ── MENU ───────────────────────────────────────────── */
+  #menu {
+    padding: 6rem 0;
+    background: var(--charcoal);
+    position: relative;
+  }
+  .menu-header { text-align: center; margin-bottom: 3.5rem; }
+  .menu-header .sec-eyebrow { justify-content: center; }
+  .menu-header .sec-eyebrow::after { display: none; }
+  .menu-header p {
+    font-size: 1.15rem; color: var(--muted); margin-top: .8rem;
+    font-style: italic;
+  }
+
+  /* Tabs */
+  .menu-tabs {
+    display: flex; justify-content: center; flex-wrap: wrap;
+    gap: .4rem; margin-bottom: 3.5rem;
+  }
+  .tab-btn {
+    font-family: 'Teko', sans-serif;
+    font-size: 1.05rem; letter-spacing: .18em; text-transform: uppercase;
+    padding: .55rem 1.6rem; cursor: pointer;
+    background: transparent; color: var(--muted);
+    border: 1px solid rgba(245,237,224,.1);
+    transition: all .2s;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+  }
+  .tab-btn:hover, .tab-btn.active {
+    background: var(--fire); color: #fff;
+    border-color: var(--fire);
+  }
+
+  /* Menu panels */
+  .menu-panel { display: none; }
+  .menu-panel.active { display: block; }
+
+  /* Category block */
+  .mcat { margin-bottom: 2.5rem; }
+  .mcat-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem; letter-spacing: .08em; color: var(--amber);
+    border-bottom: 1px solid rgba(240,165,0,.2);
+    padding-bottom: .6rem; margin-bottom: 1.2rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .mcat-title::before {
+    content: ''; width: 20px; height: 3px; background: var(--fire);
+  }
+  .mcat-note {
+    font-size: .95rem; font-style: italic; color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  /* Items grid */
+  .items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1px; background: var(--divider);
+    border: 1px solid var(--divider);
+  }
+  .mitem {
+    background: var(--panel); padding: 1rem 1.3rem;
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 1rem; transition: background .15s;
+  }
+  .mitem:hover { background: rgba(232,82,10,.06); }
+  .mitem-name { font-size: 1rem; color: var(--text); font-weight: 400; flex: 1; }
+  .mitem-desc {
+    font-size: .85rem; color: var(--muted); font-style: italic;
+    display: block; margin-top: .1rem;
+  }
+  .mitem-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem; color: var(--amber); white-space: nowrap;
+    letter-spacing: .05em;
+  }
+  .mitem-price .ksh {
+    font-family: 'Teko', sans-serif;
+    font-size: .75rem; color: rgba(240,165,0,.6); margin-right: 1px;
+  }
+
+  /* Special platter cards */
+  .platter-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    margin-top: 1rem;
+  }
+  .platter-card {
+    background: var(--panel);
+    border: 1px solid var(--divider);
+    padding: 1.8rem;
+    position: relative; overflow: hidden;
+    transition: border-color .2s;
+  }
+  .platter-card:hover { border-color: var(--fire); }
+  .platter-card::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 3px;
+  }
+  .platter-card:nth-child(1)::before { background: var(--fire); }
+  .platter-card:nth-child(2)::before { background: var(--green); }
+  .platter-card:nth-child(3)::before { background: var(--amber); }
+  .platter-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem; letter-spacing: .08em;
+    color: var(--cream); margin-bottom: .6rem;
+  }
+  .platter-name span { color: var(--fire); }
+  .platter-desc { font-size: .95rem; color: var(--muted); line-height: 1.6; margin-bottom: 1.2rem; }
+  .platter-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem; color: var(--amber); letter-spacing: .05em;
+  }
+  .platter-price .ksh { font-size: 1rem; color: rgba(240,165,0,.6); }
+
+  /* Breakfast special banner */
+  .breakfast-banner {
+    background: linear-gradient(135deg, rgba(232,82,10,.15) 0%, rgba(240,165,0,.08) 100%);
+    border: 1px solid rgba(232,82,10,.3);
+    padding: 2rem 2.5rem; margin-bottom: 2rem;
+    display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+  }
+  .bb-label {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.2rem; color: var(--amber);
+  }
+  .bb-desc { font-size: 1.05rem; color: var(--muted); margin-top: .4rem; line-height: 1.6; }
+  .bb-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.8rem; color: var(--fire); white-space: nowrap; flex-shrink: 0;
+  }
+
+  /* ── VIBES / EVENTS ─────────────────────────────────── */
+  #vibes {
+    padding: 6rem 0;
+    background: var(--black);
+    position: relative; overflow: hidden;
+  }
+  .vibes-glow {
+    position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse 70% 50% at 50% 50%, rgba(232,82,10,.07) 0%, transparent 70%);
+  }
+  .vibes-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 3rem; align-items: center;
+    position: relative; z-index: 2;
+  }
+  .vibe-card {
+    background: var(--panel); border: 1px solid var(--divider);
+    padding: 2.5rem; position: relative;
+  }
+  .vibe-card + .vibe-card { margin-top: 1.2rem; }
+  .vibe-icon {
+    font-size: 2.5rem; margin-bottom: 1rem; display: block;
+  }
+  .vibe-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem; letter-spacing: .06em; color: var(--amber);
+    margin-bottom: .6rem;
+  }
+  .vibe-desc { font-size: 1.05rem; color: var(--muted); line-height: 1.7; }
+  .vibe-tag {
+    display: inline-block; margin-top: 1rem;
+    font-family: 'Teko', sans-serif;
+    font-size: .85rem; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--fire); border: 1px solid rgba(232,82,10,.4);
+    padding: .25rem .8rem;
+  }
+  .vibes-cta { text-align: center; margin-top: 3rem; }
+
+  /* ── FIND US ────────────────────────────────────────── */
+  #find {
+    padding: 6rem 0;
+    background: var(--dark);
+  }
+  .find-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem;
+  }
+  .find-block {
+    background: var(--panel);
+    border: 1px solid var(--divider);
+    padding: 2.5rem;
+    position: relative;
+  }
+  .find-block::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--fire), var(--amber));
+  }
+  .find-block-label {
+    font-family: 'Teko', sans-serif;
+    font-size: .85rem; letter-spacing: .3em; text-transform: uppercase;
+    color: var(--fire); margin-bottom: 1rem; display: block;
+  }
+  .find-block h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem; letter-spacing: .06em; color: var(--cream); margin-bottom: 1rem;
+  }
+  .find-block p {
+    font-size: 1.05rem; line-height: 1.9; color: var(--muted);
+  }
+  .find-block a { color: var(--amber); text-decoration: none; }
+  .find-block a:hover { color: var(--fire); }
+  .wa-btn {
+    display: inline-flex; align-items: center; gap: .7rem;
+    margin-top: 1.2rem;
+    background: #128c7e; color: #fff;
+    font-family: 'Teko', sans-serif;
+    font-size: 1rem; letter-spacing: .15em; text-transform: uppercase;
+    padding: .6rem 1.4rem; text-decoration: none;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+    transition: background .2s;
+  }
+  .wa-btn:hover { background: #075e54; }
+
+  /* ── FOOTER ─────────────────────────────────────────── */
+  footer {
+    background: #060606;
+    padding: 0;
+  }
+  .footer-main {
+    padding: 3.5rem 2.5rem;
+    max-width: 1300px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;
+    gap: 2rem;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem; letter-spacing: .12em; color: var(--amber);
+  }
+  .footer-logo small {
+    display: block; font-family: 'Teko', sans-serif;
+    font-size: .8rem; letter-spacing: .3em; color: var(--muted); margin-top: -.3rem;
+  }
+  .footer-links { display: flex; gap: 2rem; flex-wrap: wrap; }
+  .footer-links a {
+    font-family: 'Teko', sans-serif;
+    font-size: .95rem; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; transition: color .2s;
+  }
+  .footer-links a:hover { color: var(--amber); }
+  .footer-copy {
+    text-align: center; padding: 1.5rem;
+    font-family: 'Teko', sans-serif;
+    font-size: .8rem; letter-spacing: .15em; text-transform: uppercase;
+    color: rgba(245,237,224,.15);
+    border-top: 1px solid var(--divider);
+  }
+
+  /* ── ANIMATIONS ─────────────────────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero-content > * {
+    animation: fadeUp .7s ease both;
+  }
+  .hero-content > *:nth-child(1) { animation-delay: .1s; }
+  .hero-content > *:nth-child(2) { animation-delay: .2s; }
+  .hero-content > *:nth-child(3) { animation-delay: .3s; }
+  .hero-content > *:nth-child(4) { animation-delay: .4s; }
+  .hero-content > *:nth-child(5) { animation-delay: .5s; }
+
+  /* ── MOBILE ─────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .nav-inner { padding: .9rem 1.2rem; }
+    .about-grid, .vibes-grid, .find-grid { grid-template-columns: 1fr; }
+    .platter-grid { grid-template-columns: 1fr; }
+    .hero-stats { gap: 2.5rem; }
+    .hero-pot { display: none; }
+    .breakfast-banner { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ════════════════════════════════════════════════ -->
+<nav>
+  <div class="tribal-border nav-stripe"></div>
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <!-- Pot SVG icon -->
+      <svg class="pot-icon" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="30" cy="42" rx="20" ry="12" fill="#1a1a1a" stroke="#e8520a" stroke-width="1.5"/>
+        <rect x="14" y="26" width="32" height="18" rx="4" fill="#222"/>
+        <ellipse cx="30" cy="26" rx="16" ry="5" fill="#333"/>
+        <circle cx="22" cy="22" r="2" fill="#e8520a" opacity=".8"/>
+        <circle cx="30" cy="19" r="3" fill="#f0a500" opacity=".9"/>
+        <circle cx="38" cy="21" r="2" fill="#e8520a" opacity=".8"/>
+        <path d="M10 28 L8 24" stroke="#555" stroke-width="3" stroke-linecap="round"/>
+        <path d="M50 28 L52 24" stroke="#555" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      New Haven
+    </div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#find">Find Us</a></li>
+    </ul>
+    <a class="nav-cta" href="tel:+254723786376">Reserve a Table</a>
+  </div>
+</nav>
+
+<!-- ═══ HERO ════════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-grain"></div>
+
+  <!-- Decorative big pot watermark -->
+  <svg class="hero-pot" viewBox="0 0 400 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="200" cy="300" rx="160" ry="70" fill="#e8520a"/>
+    <rect x="60" y="160" width="280" height="150" rx="24" fill="#c23b0f"/>
+    <ellipse cx="200" cy="160" rx="140" ry="38" fill="#d44f18"/>
+    <circle cx="140" cy="120" r="18" fill="#f0a500" opacity=".8"/>
+    <circle cx="200" cy="90" r="26" fill="#f0a500"/>
+    <circle cx="260" cy="110" r="16" fill="#f0a500" opacity=".8"/>
+    <circle cx="175" cy="60" r="12" fill="#e8520a" opacity=".6"/>
+    <circle cx="220" cy="55" r="10" fill="#e8520a" opacity=".5"/>
+    <path d="M30 175 L10 130" stroke="#555" stroke-width="22" stroke-linecap="round"/>
+    <path d="M370 175 L390 130" stroke="#555" stroke-width="22" stroke-linecap="round"/>
+  </svg>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Taste of the Motherland</div>
+    <h1 class="hero-title">
+      <span class="script-word">New Haven</span>
+      <span class="accent">Restaurant</span>
+    </h1>
+    <p class="hero-sub">Atlanta Mall · Kirichwa Road · Nairobi</p>
+    <div class="hero-actions">
+      <a class="btn-fire" href="#menu" onclick="event.preventDefault(); document.getElementById('menu').scrollIntoView({behavior:'smooth'});">Explore Menu</a>
+      <a class="btn-outline" href="tel:+254723786376">Reserve a Table</a>
+    </div>
+    <div class="delivery-badge">
+      <span>🛵 Deliveries:</span>
+      <a href="tel:0110391729">0110 391 729</a>
+    </div>
+  </div>
+
+
+</section>
+
+<div class="tribal-border flip"></div>
+
+<!-- ═══ MARQUEE STRIP ══════════════════════════════════════ -->
+<div class="events-strip">
+  <div class="events-marquee">
+    <span>Good Food <span class="dot">✦</span></span>
+    <span>Good Drinks <span class="dot">✦</span></span>
+    <span>Authentic African Cuisine <span class="dot">✦</span></span>
+    <span>Taste of the Motherland <span class="dot">✦</span></span>
+    <span>Deliveries Available <span class="dot">✦</span></span>
+    <span>Atlanta Mall · Kirichwa Road <span class="dot">✦</span></span>
+    <span>Good Food <span class="dot">✦</span></span>
+    <span>Good Drinks <span class="dot">✦</span></span>
+    <span>Authentic African Cuisine <span class="dot">✦</span></span>
+    <span>Taste of the Motherland <span class="dot">✦</span></span>
+    <span>Deliveries Available <span class="dot">✦</span></span>
+    <span>Atlanta Mall · Kirichwa Road <span class="dot">✦</span></span>
+  </div>
+</div>
+
+<div class="tribal-border"></div>
+
+<!-- ═══ ABOUT ═══════════════════════════════════════════════ -->
+<section id="about">
+  <div class="section-wrap">
+    <div class="about-grid">
+      <div class="about-text">
+        <div class="sec-eyebrow">Who We Are</div>
+        <h2 class="sec-title">Your Plug for Tasty African Dishes</h2>
+        <p>New Haven Restaurant is a celebration of African flavours — bold, soulful, and unapologetically homemade. Nestled at <strong>Atlanta Mall along Kirichwa Road</strong>, we bring the taste of the motherland right to your table.</p>
+        <p>From smoked beef stews and goat choma to coconut fish and kienyeji chicken, every dish is cooked with fire, love, and a deep respect for tradition.</p>
+        <div class="about-features">
+          <div class="feat"><strong>African Cuisine</strong><span>Authentic, bold flavours</span></div>
+          <div class="feat"><strong>Deliveries</strong><span>Call 0110 391 729</span></div>
+          <div class="feat"><strong>Atlanta Mall</strong><span>Kirichwa Road, Nairobi</span></div>
+          <div class="feat"><strong>Always Welcoming</strong><span>Come as you are</span></div>
+        </div>
+      </div>
+      <div class="about-visual">
+        <div class="about-card">
+          <div class="about-card-q">"</div>
+          <blockquote>Good drinks, good music, no pressure… just come through and enjoy yourself.</blockquote>
+          <div class="about-card-attr">— New Haven Restaurant</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MENU ═════════════════════════════════════════════════ -->
+<section id="menu">
+  <div class="tribal-border flip" style="margin-bottom:0;"></div>
+  <div class="section-wrap" style="padding-top:4rem;">
+    <div class="menu-header">
+      <div class="sec-eyebrow">What We Serve</div>
+      <h2 class="sec-title">The Menu</h2>
+      <p>All prices in Kenya Shillings. Ask us about daily specials.</p>
+    </div>
+
+    <!-- Tab navigation -->
+    <div class="menu-tabs">
+      <button class="tab-btn active" onclick="showTab('breakfast', this)">Breakfast</button>
+      <button class="tab-btn" onclick="showTab('mains', this)">Main Dishes</button>
+      <button class="tab-btn" onclick="showTab('snacks', this)">Snacks</button>
+      <button class="tab-btn" onclick="showTab('accompaniments', this)">Accompaniments</button>
+      <button class="tab-btn" onclick="showTab('platters', this)">Platters</button>
+      <button class="tab-btn" onclick="showTab('specials', this)">Chef's Special</button>
+    </div>
+
+    <!-- ── BREAKFAST ── -->
+    <div class="menu-panel active" id="panel-breakfast">
+      <div class="breakfast-banner">
+        <div>
+          <div class="bb-label">Haven's Full Breakfast</div>
+          <div class="bb-desc">Eggs (fried/boiled) · Sausages or Samosa (2) · Bacon · Lyonnaise or Nduma or Ngwaci · Grilled tomato · Toast or Mahamri · Tea or House coffee</div>
+        </div>
+        <div class="bb-price">KSh 1,000</div>
+      </div>
+
+      <div class="mcat">
+        <div class="mcat-title">Breakfast Items</div>
+        <div class="items-grid">
+          <div class="mitem"><span class="mitem-name">Fried Eggs</span><span class="mitem-price"><span class="ksh">KSh</span>200</span></div>
+          <div class="mitem"><span class="mitem-name">Omelette (with toast)</span><span class="mitem-price"><span class="ksh">KSh</span>250</span></div>
+          <div class="mitem"><span class="mitem-name">Twin Sausages</span><span class="mitem-price"><span class="ksh">KSh</span>150</span></div>
+          <div class="mitem"><span class="mitem-name">Twin Samosa</span><span class="mitem-price"><span class="ksh">KSh</span>150</span></div>
+          <div class="mitem"><span class="mitem-name">Nduma</span><span class="mitem-price"><span class="ksh">KSh</span>200</span></div>
+          <div class="mitem"><span class="mitem-name">Ngwaci</span><span class="mitem-price"><span class="ksh">KSh</span>200</span></div>
+          <div class="mitem"><span class="mitem-name">Mahamri</span><span class="mitem-price"><span class="ksh">KSh</span>80</span></div>
+          <div class="mitem"><span class="mitem-name">Chapati</span><span class="mitem-price"><span class="ksh">KSh</span>70</span></div>
+          <div class="mitem"><span class="mitem-name">Brown Chapati</span><span class="mitem-price"><span class="ksh">KSh</span>100</span></div>
+          <div class="mitem"><span class="mitem-name">Pancake</span><span class="mitem-price"><span class="ksh">KSh</span>200</span></div>
+          <div class="mitem"><span class="mitem-name">Bacon</span><span class="mitem-price"><span class="ksh">KSh</span>350</span></div>
+        </div>
+      </div>
+
+      <div class="mcat">
+        <div class="mcat-title">Breakfast Beverages</div>
+        <div class="items-grid">
+          <div class="mitem"><span class="mitem-name">Kenyan Tea</span><span class="mitem-price"><span class="ksh">KSh</span>200</span></div>
+          <div class="mitem"><span class="mitem-name">Black Tea</span><span class="mitem-price"><span class="ksh">KSh</span>150</span></div>
+          <div class="mitem"><span class="mitem-name">White Coffee</span><span class="mitem-price"><span class="ksh">KSh</span>200</span></div>
+          <div class="mitem"><span class="mitem-name">Black Coffee</span><span class="mitem-price"><span class="ksh">KSh</span>180</span></div>
+          <div class="mitem"><span class="mitem-name">Lemon Tea</span><span class="mitem-price"><span class="ksh">KSh</span>180</span></div>
+          <div class="mitem"><span class="mitem-name">Uji Power</span><span class="mitem-price"><span class="ksh">KSh</span>200</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── MAIN DISHES ── -->
+    <div class="menu-panel" id="panel-mains">
+      <div class="mcat">
+        <div class="mcat-title">Main Dishes</div>
+        <div class="items-grid">
+          <div class="mitem"><div><span class="mitem-name">Athola</span><span class="mitem-desc">Smoked beef stew</span></div><span class="mitem-price"><span class="ksh">KSh</span>800</span></div>
+          <div class="mitem"><div><span class="mitem-name">Anti Theft</span><span class="mitem-desc">Pan-seared beef steak</span></div><span class="mitem-price"><span class="ksh">KSh</span>800</span></div>
+          <div class="mitem"><span class="mitem-name">Beef Dry / Wet</span><span class="mitem-price"><span class="ksh">KSh</span>750</span></div>
+          <div class="mitem"><span class="mitem-name">Matumbo Dry / Wet</span><span class="mitem-price"><span class="ksh">KSh</span>350</span></div>
+          <div class="mitem"><span class="mitem-name">Mbuzi Dry / Wet</span><span class="mitem-price"><span class="ksh">KSh</span>750</span></div>
+          <div class="mitem"><span class="mitem-name">Mbuzi Boil</span><span class="mitem-price"><span class="ksh">KSh</span>750</span></div>
+          <div class="mitem"><span class="mitem-name">Mbuzi Choma Half</span><span class="mitem-price"><span class="ksh">KSh</span>800</span></div>
+          <div class="mitem"><span class="mitem-name">Pork Cubes (Wet)</span><span class="mitem-price"><span class="ksh">KSh</span>850</span></div>
+          <div class="mitem"><div><span class="mitem-name">Chicken Kienyeji</span><span class="mitem-desc">Wet / Dry</span></div><span class="mitem-price"><span class="ksh">KSh</span>650</span></div>
+          <div class="mitem"><div><span class="mitem-name">Chicken Capon</span><span class="mitem-desc">Wet / Dry</span></div><span class="mitem-price"><span class="ksh">KSh</span>450</span></div>
+          <div class="mitem"><div><span class="mitem-name">Tilapia</span><span class="mitem-desc">Wet / Dry</span></div><span class="mitem-price"><span class="ksh">KSh</span>800</span></div>
+          <div class="mitem"><span class="mitem-name">Coconut Fish</span><span class="mitem-price"><span class="ksh">KSh</span>850</span></div>
+          <div class="mitem"><span class="mitem-name">Ugali Mayai</span><span class="mitem-price"><span class="ksh">KSh</span>300</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SNACKS ── -->
+    <div class="menu-panel" id="panel-snacks">
+      <div class="mcat">
+        <div class="mcat-title">Snacks</div>
+        <div class="items-grid">
+          <div class="mitem"><span class="mitem-name">Chicken Wings</span><span class="mitem-price"><span class="ksh">KSh</span>600</span></div>
+          <div class="mitem"><span class="mitem-name">Fish Fingers</span><span class="mitem-price"><span class="ksh">KSh</span>600</span></div>
+          <div class="mitem"><span class="mitem-name">Sausages</span><span class="mitem-price"><span class="ksh">KSh</span>150</span></div>
+          <div class="mitem"><span class="mitem-name">Samosa</span><span class="mitem-price"><span class="ksh">KSh</span>150</span></div>
+          <div class="mitem"><span class="mitem-name">Beef Skewers</span><span class="mitem-price"><span class="ksh">KSh</span>200</span></div>
+          <div class="mitem"><span class="mitem-name">Vegetable Samosa</span><span class="mitem-price"><span class="ksh">KSh</span>150</span></div>
+          <div class="mitem"><span class="mitem-name">Kebab</span><span class="mitem-price"><span class="ksh">KSh</span>200</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ACCOMPANIMENTS ── -->
+    <div class="menu-panel" id="panel-accompaniments">
+      <div class="mcat">
+        <div class="mcat-title">Accompaniments</div>
+        <div class="items-grid">
+          <div class="mitem"><span class="mitem-name">White Ugali</span><span class="mitem-price"><span class="ksh">KSh</span>150</span></div>
+          <div class="mitem"><span class="mitem-name">Brown Ugali</span><span class="mitem-price"><span class="ksh">KSh</span>200</span></div>
+          <div class="mitem"><span class="mitem-name">Chapati Brown</span><span class="mitem-price"><span class="ksh">KSh</span>100</span></div>
+          <div class="mitem"><span class="mitem-name">Chapati White</span><span class="mitem-price"><span class="ksh">KSh</span>70</span></div>
+          <div class="mitem"><span class="mitem-name">Plain Rice</span><span class="mitem-price"><span class="ksh">KSh</span>200</span></div>
+          <div class="mitem"><span class="mitem-name">Vegetable Rice</span><span class="mitem-price"><span class="ksh">KSh</span>300</span></div>
+          <div class="mitem"><span class="mitem-name">Plain Chips</span><span class="mitem-price"><span class="ksh">KSh</span>200</span></div>
+          <div class="mitem"><span class="mitem-name">Chips Masala</span><span class="mitem-price"><span class="ksh">KSh</span>300</span></div>
+          <div class="mitem"><span class="mitem-name">Spicy Garlic Fries</span><span class="mitem-price"><span class="ksh">KSh</span>300</span></div>
+          <div class="mitem"><span class="mitem-name">Sautée Potatoes</span><span class="mitem-price"><span class="ksh">KSh</span>300</span></div>
+          <div class="mitem"><span class="mitem-name">Potato Wedges</span><span class="mitem-price"><span class="ksh">KSh</span>300</span></div>
+          <div class="mitem"><span class="mitem-name">Mashed Potatoes</span><span class="mitem-price"><span class="ksh">KSh</span>300</span></div>
+          <div class="mitem"><span class="mitem-name">Kachumbari</span><span class="mitem-price"><span class="ksh">KSh</span>150</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PLATTERS ── -->
+    <div class="menu-panel" id="panel-platters">
+      <div class="mcat">
+        <div class="mcat-title">Meaty Platters</div>
+        <div class="mcat-note">Perfect for sharing — big flavours, big portions</div>
+        <div class="platter-grid">
+          <div class="platter-card">
+            <div class="platter-name"><span>Snacky</span> Zone</div>
+            <div class="platter-desc">Beef skewers (4), Chicken wings, Choma sausages (2), Samosas (4), Chips or Sauté Potatoes, Kachumbari</div>
+            <div class="platter-price"><span class="ksh">KSh </span>2,200</div>
+          </div>
+          <div class="platter-card">
+            <div class="platter-name"><span>Mini</span> Platter</div>
+            <div class="platter-desc">2 pcs Choma Sausages, Fries, Samosas and Kachumbari</div>
+            <div class="platter-price"><span class="ksh">KSh </span>650</div>
+          </div>
+          <div class="platter-card">
+            <div class="platter-name"><span>BBQ</span> Zone</div>
+            <div class="platter-desc">Mbuzi Choma, Grilled Chicken, Pork Ribs, Ugali, Sauté Potatoes, Chips, Chapati (2 carbs), Kachumbari, Traditional Veges</div>
+            <div class="platter-price"><span class="ksh">KSh </span>3,400</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CHEF'S SPECIAL ── -->
+    <div class="menu-panel" id="panel-specials">
+      <div class="mcat">
+        <div class="mcat-title">Chef's Special</div>
+        <div class="items-grid">
+          <div class="mitem"><div><span class="mitem-name">Fish Choma — Nile Perch (Half)</span></div><span class="mitem-price"><span class="ksh">KSh</span>1,500</span></div>
+          <div class="mitem"><div><span class="mitem-name">Fish Choma — Nile Perch (Full)</span></div><span class="mitem-price"><span class="ksh">KSh</span>3,000</span></div>
+          <div class="mitem"><span class="mitem-name">Pork Ribs (Choma)</span><span class="mitem-price"><span class="ksh">KSh</span>950</span></div>
+          <div class="mitem"><span class="mitem-name">Boiled Kienyeji Chicken</span><span class="mitem-price"><span class="ksh">KSh</span>2,500</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /section-wrap -->
+  <div class="tribal-border" style="margin-top:4rem;"></div>
+</section>
+
+<!-- ═══ FIND US ══════════════════════════════════════════════ -->
+<section id="find">
+  <div class="section-wrap">
+    <div class="sec-eyebrow">Get Here</div>
+    <h2 class="sec-title" style="margin-bottom:2.5rem;">Find Us &amp; Get in Touch</h2>
+    <div class="find-grid">
+      <div class="find-block">
+        <span class="find-block-label">Location</span>
+        <h3>Atlanta Mall</h3>
+        <p>
+          Along Kirichwa Road<br>
+          Nairobi, Kenya<br><br>
+          <a href="https://maps.google.com/?q=Atlanta+Mall+Kirichwa+Road+Nairobi" target="_blank">Open in Google Maps →</a>
+        </p>
+      </div>
+      <div class="find-block">
+        <span class="find-block-label">Call or WhatsApp</span>
+        <h3>Contact</h3>
+        <p>
+          <a href="tel:+254723786376">📞 +254 723 786 376</a><br><br>
+          🛵 Deliveries: <a href="tel:0110391729">0110 391 729</a>
+        </p>
+        <a class="wa-btn" href="https://wa.me/254723786376" target="_blank">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp Us
+        </a>
+      </div>
+      <div class="find-block">
+        <span class="find-block-label">Follow &amp; Order</span>
+        <h3>Stay Connected</h3>
+        <p>
+          📸 <a href="https://www.instagram.com/newhavenrestaurant" target="_blank">@newhavenrestaurant</a><br><br>
+          Facebook: <a href="https://www.facebook.com/Newhavenrestaurant" target="_blank">Newhavenrestaurant</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="tribal-border"></div>
+
+<!-- ═══ FOOTER ═══════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-main">
+    <div class="footer-logo">
+      New Haven Restaurant
+      <small>Taste of the Motherland</small>
+    </div>
+    <div class="footer-links">
+      <a href="#about">About</a>
+      <a href="#menu">Menu</a>
+      <a href="#find">Find Us</a>
+      <a href="tel:+254723786376">+254 723 786 376</a>
+    </div>
+  </div>
+  <div class="footer-copy">© 2024 New Haven Restaurant · Atlanta Mall, Kirichwa Road, Nairobi</div>
+</footer>
+
+<script>
+  function showTab(id, btn) {
+    document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('panel-' + id).classList.add('active');
+    btn.classList.add('active');
+    document.getElementById('menu').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // Nav shadow on scroll
+  window.addEventListener('scroll', () => {
+    document.querySelector('nav').style.boxShadow =
+      window.scrollY > 60 ? '0 4px 40px rgba(232,82,10,.12)' : 'none';
+  });
+</script>
+</body>
+</html>
